@@ -84,5 +84,5 @@ This project is an AI-powered search engine that leverages Elasticsearch to inde
 
 ## 📧 Contact
 
-For any inquiries, contact hasmita.patnana@gmaiil.com.
+For any inquiries, contact hasmita.patnana@gmail.com.
 
