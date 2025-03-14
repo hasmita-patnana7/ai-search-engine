@@ -81,15 +81,8 @@ This project is an AI-powered search engine that leverages Elasticsearch to inde
   - `api/hello.js` - Example API route.
 - 🎨 `frontend/styles/globals.css` - Global styles for the application.
 
-## 📜 License
-
-This project is licensed under the MIT License. See `LICENSE` for details.
-
-## 🤝 Contributing
-
-Feel free to open issues or submit pull requests to enhance the project!
 
 ## 📧 Contact
 
-For any inquiries, contact [your email or GitHub profile].
+For any inquiries, contact hasmita.patnana@gmaiil.com.
 
