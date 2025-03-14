@@ -1,33 +1,46 @@
+from fastapi import FastAPI
 from elasticsearch import Elasticsearch
-from dotenv import load_dotenv
-import os
+import json
 
-# Load environment variables
-load_dotenv()
+app = FastAPI()
+es = Elasticsearch("http://localhost:9200")
 
-# Connect to Elasticsearch
-es = Elasticsearch(
-    os.getenv("ELASTICSEARCH_HOST"),
-    api_key=os.getenv("ELASTICSEARCH_API_KEY")
-)
+@app.get("/search/")
+def search(query: str):
+    # 🛠 Check Elasticsearch connection
+    if not es.ping():
+        print("🚨 Elasticsearch is NOT reachable!")
+        return {"error": "Elasticsearch is down"}
 
-# Define the index name
-INDEX_NAME = "search-index"
-
-# Search query
-query = {
-    "query": {
-        "match": {
-            "content": "FastAPI"
+    search_body = {
+        "query": {
+            "multi_match": {
+                "query": query,
+                "fields": ["title", "content"],
+                "fuzziness": "AUTO"
+            }
         }
     }
-}
 
-# Perform the search
-response = es.search(index=INDEX_NAME, body=query)
+    try:
+        results = es.search(index="wikipedia_articles", body=search_body)
 
-# Print results
-for hit in response["hits"]["hits"]:
-    print(f"Title: {hit['_source']['title']}")
-    print(f"Content: {hit['_source']['content']}")
-    print("-" * 50)
+        # 🔍 Debug: Print Elasticsearch response
+        print("\n==== Elasticsearch Response ====")
+        print(json.dumps(results, indent=2))
+
+        hits = results["hits"]["hits"]
+        if not hits:
+            print("⚠ No matching results found!")
+
+        return {"results": [
+            {
+                "title": hit["_source"].get("title", "No Title"),
+                "content": hit["_source"].get("content", "No Content")
+            } 
+            for hit in hits
+        ]}
+
+    except Exception as e:
+        print("🚨 FastAPI Error:", str(e))
+        return {"error": str(e)}

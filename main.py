@@ -3,6 +3,9 @@ from elasticsearch import Elasticsearch
 from dotenv import load_dotenv
 import os
 
+# ✅ Initialize FastAPI before defining routes
+app = FastAPI()
+
 # Load environment variables
 load_dotenv()
 
@@ -20,9 +23,6 @@ es = Elasticsearch(
     api_key=ELASTICSEARCH_API_KEY
 )
 
-# Initialize FastAPI
-app = FastAPI()
-
 @app.get("/")
 def read_root():
     return {"message": "AI Search Engine is running!"}
@@ -30,19 +30,27 @@ def read_root():
 @app.get("/search/")
 def search(query: str):
     """Search Elasticsearch for matching documents."""
-    search_query = {
-        "query": {
-            "match": {
-                "name": query  # Adjust field name if needed
+    try:
+        search_query = {
+            "query": {
+                "multi_match": {
+                    "query": query,
+                    "fields": ["title", "content"],
+                    "fuzziness": "AUTO"
+                }
             }
         }
-    }
-    
-    response = es.search(index="my_index", body=search_query)
-    
-    results = [
-        {"id": hit["_id"], "name": hit["_source"]["name"], "sport": hit["_source"]["sport"]}
-        for hit in response["hits"]["hits"]
-    ]
-    
-    return {"results": results}
+        
+        response = es.search(index="wikipedia_articles", body=search_query)
+        print("Elasticsearch Response:", response)  # DEBUG
+        
+        results = [
+            {"title": hit["_source"]["title"], "content": hit["_source"]["content"]}
+            for hit in response["hits"]["hits"]
+        ]
+        
+        return {"results": results}
+
+    except Exception as e:
+        print("Error:", e)  # DEBUG
+        return {"error": str(e)}

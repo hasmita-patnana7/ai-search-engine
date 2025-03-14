@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from elasticsearch import Elasticsearch
+import json
 
 app = FastAPI()
 es = Elasticsearch("http://localhost:9200")
-index_name = "wikipedia_articles"
 
 @app.get("/search/")
 def search(query: str):
@@ -11,13 +11,32 @@ def search(query: str):
         "query": {
             "multi_match": {
                 "query": query,
-                "fields": ["title", "content"]
+                "fields": ["title", "content"],
+                "fuzziness": "AUTO"
             }
         }
     }
-    results = es.search(index=index_name, body=search_body)
-    hits = results["hits"]["hits"]
-    
-    return {"results": [{"title": hit["_source"]["title"], "content": hit["_source"]["content"]} for hit in hits]}
 
+    try:
+        results = es.search(index="wikipedia_articles", body=search_body)
 
+        # 🔍 Debugging: Print the raw Elasticsearch response
+        print("\n==== Elasticsearch Response ====")
+        print(json.dumps(results, indent=2))
+
+        hits = results["hits"]["hits"]
+
+        if not hits:
+            print("⚠ No matching results found!")
+
+        return {"results": [
+            {
+                "title": hit["_source"].get("title", "No Title"),
+                "content": hit["_source"].get("content", "No Content")
+            } 
+            for hit in hits
+        ]}
+
+    except Exception as e:
+        print("🚨 FastAPI Error:", str(e))
+        return {"error": str(e)}
