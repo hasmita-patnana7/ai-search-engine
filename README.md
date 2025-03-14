@@ -1,55 +1,95 @@
-AI Search Engine
+# AI Search Engine
 
-📌 Overview
+## 📌 Overview
 
-This project is an AI-powered search engine that leverages Elasticsearch to index and retrieve data efficiently. It includes a web scraper for data collection, indexing scripts, and an API for querying the search engine.
+This project is an AI-powered search engine that leverages Elasticsearch to index and retrieve data efficiently. It includes a Next.js frontend for the user interface, a web scraper for data collection, indexing scripts, and an API for querying the search engine.
 
-🚀 Features
+## 🚀 Features
 
-🔗 Connects to Elasticsearch for indexing and searching.
+- 🔗 Connects to Elasticsearch for indexing and searching.
+- 🌐 Includes a web scraper to gather data.
+- 📡 API to query the search engine.
+- ⚡ Efficient data indexing and retrieval.
+- 🎨 User-friendly frontend built with Next.js.
 
-🌐 Includes a web scraper to gather data.
+## 🔧 Installation
 
-📡 API to query the search engine.
+### Backend Setup
 
-⚡ Efficient data indexing and retrieval.
+1. Clone the repository:
 
-🔧 Installation
+   ```sh
+ https://github.com/hasmita-patnana7/ai-search-engine.git
+   ```
 
-Clone the repository:
+2. Install dependencies:
 
-git clone https://github.com/hasmita-patnana7/ai-search-engine.git
+   ```sh
+   pip install -r requirements.txt
+   ```
 
-Install dependencies:
+3. Ensure Elasticsearch is running locally or provide a remote instance.
 
-pip install -r requirements.txt
+4. Start by indexing data:
 
-Ensure Elasticsearch is running locally or provide a remote instance.
+   ```sh
+   python index_data.py
+   ```
 
-📖 Usage
+5. Run the search API:
 
-Start by indexing data:
+   ```sh
+   python search_api.py
+   ```
 
-python index_data.py
+### Frontend Setup
 
-Run the search API:
+1. Navigate to the frontend directory:
+   ```sh
+   cd frontend
+   ```
+2. Install frontend dependencies:
+   ```sh
+   npm install
+   ```
+3. Start the frontend application:
+   ```sh
+   npm run dev
+   ```
+4. Open your browser and visit:
+   ```sh
+   http://localhost:3000
+   ```
 
-python search_api.py
+## 📂 Project Structure
 
-Query the search engine using the API.
+### Backend
 
-📂 Project Structure
+- 📜 `main.py` - Main script to run the search engine.
+- 🔌 `connect_elasticsearch.py` - Handles Elasticsearch connections.
+- 📊 `index_data.py` - Indexes data into Elasticsearch.
+- 🕷️ `scraper.py` - Collects data from web sources.
+- 🔍 `search_api.py` - Provides an API interface for search queries.
+- 📌 `search_data.py` - Manages search-related operations.
+- 📦 `requirements.txt` - Lists required dependencies.
 
-📜 main.py - Main script to run the search engine.
+### Frontend
 
-🔌 connect_elasticsearch.py - Handles Elasticsearch connections.
+- 📁 `frontend/pages/` - Contains Next.js pages.
+  - `index.js` - Main search interface.
+  - `_app.js` and `_document.js` - Next.js configuration files.
+  - `api/hello.js` - Example API route.
+- 🎨 `frontend/styles/globals.css` - Global styles for the application.
 
-📊 index_data.py - Indexes data into Elasticsearch.
+## 📜 License
 
-🕷️ scraper.py - Collects data from web sources.
+This project is licensed under the MIT License. See `LICENSE` for details.
 
-🔍 search_api.py - Provides an API interface for search queries.
+## 🤝 Contributing
 
-📌 search_data.py - Manages search-related operations.
+Feel free to open issues or submit pull requests to enhance the project!
 
-📦 requirements.txt - Lists required dependencies.
+## 📧 Contact
+
+For any inquiries, contact [your email or GitHub profile].
+
