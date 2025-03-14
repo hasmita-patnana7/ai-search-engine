@@ -19,7 +19,7 @@ This project is an AI-powered search engine that leverages Elasticsearch to inde
 1. Clone the repository:
 
    ```sh
- https://github.com/hasmita-patnana7/ai-search-engine.git
+    https://github.com/hasmita-patnana7/ai-search-engine.git
    ```
 
 2. Install dependencies:
